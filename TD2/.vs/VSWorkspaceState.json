@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\BasicWebServer"
+    "\\BasicWebServer",
+    "\\ExecTest",
+    "\\ExternalExeCall",
+    "\\HttpListener\\BasicServerHttpListener"
   ],
-  "SelectedNode": "\\BasicWebServer\\Program.cs",
+  "SelectedNode": "\\BasicWebServer\\BasicWebServerUrlParser.csproj",
   "PreviewInSolutionExplorer": false
 }

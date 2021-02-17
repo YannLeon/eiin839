@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Diagnostics;
 
 namespace BasicServerHTTPlistener
 {
@@ -101,6 +103,9 @@ namespace BasicServerHTTPlistener
                 Console.WriteLine("param2 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param2"));
                 Console.WriteLine("param3 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param3"));
                 Console.WriteLine("param4 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param4"));
+                Console.WriteLine("urltest= " + HttpUtility.ParseQueryString(request.Url.Segments[1]));
+
+
 
                 //
                 Console.WriteLine(documentContents);
@@ -110,6 +115,38 @@ namespace BasicServerHTTPlistener
 
                 // Construct a response.
                 string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
+                Type type = typeof(MyMethods);
+                MethodInfo method = type.GetMethod(request.Url.Segments[request.Url.Segments.Length - 1]);
+                MyMethods m = new MyMethods();
+                Object[] arg = { HttpUtility.ParseQueryString(request.Url.Query) };
+                if (!(request.Url.Segments[request.Url.Segments.Length - 1]).Equals("favicon.ico"))
+                {
+                    responseString = (string)method.Invoke(m, arg);
+                }
+                /**
+                if ("MyMethod".Equals(request.Url.Segments[request.Url.Segments.Length - 1]))
+                {
+                    Console.WriteLine("oui konnard");
+                    MyMethods m = new MyMethods();
+                    responseString = m.MyMethod(HttpUtility.ParseQueryString(request.Url.Query));
+                }**/
+
+                ProcessStartInfo start = new ProcessStartInfo();
+                start.FileName = @"C:\Users\yannl\Documents\GitHub\eiin839\TD2\ConsoleApp1\bin\Debug\ConsoleApp1.exe"; // Specify exe name.
+                start.Arguments = HttpUtility.ParseQueryString(request.Url.Query).Get("param1")+" "+ HttpUtility.ParseQueryString(request.Url.Query).Get("param2"); // Specify arguments.
+                start.UseShellExecute = false;
+                start.RedirectStandardOutput = true;
+                using (Process process = Process.Start(start))
+                {
+                    //
+                    // Read in all the text from the process with the StreamReader.
+                    //
+                    using (StreamReader reader = process.StandardOutput)
+                    {
+                        string result = reader.ReadToEnd();
+                        responseString += result;
+                    }
+                }
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
                 // Get a response stream and write the response to it.
                 response.ContentLength64 = buffer.Length;
