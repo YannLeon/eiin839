@@ -144,7 +144,7 @@ namespace BasicServerHTTPlistener
                     using (StreamReader reader = process.StandardOutput)
                     {
                         string result = reader.ReadToEnd();
-                        responseString += result;
+                        responseString +="\n"+ result;
                     }
                 }
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);

@@ -74,11 +74,11 @@ namespace BasicServerHTTPlistener
                 HttpListenerResponse response = context.Response;
 
                 //Print a specific header
-                h.printHeader(HttpRequestHeader.Accept);
-                h.printHeader(HttpRequestHeader.Connection);
-
+                //h.printHeader(HttpRequestHeader.Accept);
+                //h.printHeader(HttpRequestHeader.Connection);
+            
                 //Print all headers
-                //h.printAllHeaders();
+                h.printAllHeaders();
                 
 
                 // Construct a response.
@@ -98,14 +98,32 @@ namespace BasicServerHTTPlistener
     public class Header{
         System.Collections.Specialized.NameValueCollection headersCollection;
         public Header(System.Collections.Specialized.NameValueCollection headersCollection) {
-            this.headersCollection = headersCollection;
+            this.headersCollection = transformHeadersCollection( headersCollection);
          }
 
+        public System.Collections.Specialized.NameValueCollection transformHeadersCollection(System.Collections.Specialized.NameValueCollection hc) {
+            System.Collections.Specialized.NameValueCollection result = new System.Collections.Specialized.NameValueCollection();
+            foreach (string h in hc.Keys)
+            {
+                result.Add(RemoveChars(h, '-'), hc.Get(h));
+            }
+            return (result);
+        }
         public void printHeader(HttpRequestHeader req)
         {
             Console.WriteLine(req.ToString() + " :");
             String s = headersCollection.Get(req.ToString());
             if (s.Length == 0)
+            {
+                s = "\u001b[31mNo data\u001b[0m";
+            }
+            Console.WriteLine(s);
+        }
+        public void printHeaderFromString(String withoutdash)
+        {
+            Console.WriteLine(withoutdash.ToString() + " :");
+            String s = headersCollection.Get(withoutdash.ToString());
+            if (s == null)
             {
                 s = "No data";
             }
@@ -114,7 +132,32 @@ namespace BasicServerHTTPlistener
 
         public void printAllHeaders()
         {
-            Console.WriteLine(headersCollection);
+            foreach (HttpRequestHeader headerEnum in Enum.GetValues(typeof(HttpRequestHeader)))
+            {
+                printHeaderFromString(headerEnum.ToString());
+            }
+            /**
+                foreach (string h in headersCollection.Keys) {
+                printHeaderFromString(h);
+                    }**/
+            //Console.WriteLine(headersCollection);
+        }
+
+        String RemoveChars(String s, char c)
+        {
+            int writer = 0, reader = 0;
+            String r = "";
+            while (reader<s.Length)
+            {
+                if (s[reader] != c)
+                {
+                    r+= s[reader];
+                }
+
+                reader++;
+            }
+
+            return r;
         }
     }
 }
