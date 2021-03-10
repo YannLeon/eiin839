@@ -1,0 +1,7 @@
+C:\Users\yannl\Documents\GitHub\eiin839\webFront\SOAP\Soap web service client\bin\Debug\Soap web service client.exe.config
+C:\Users\yannl\Documents\GitHub\eiin839\webFront\SOAP\Soap web service client\bin\Debug\Soap web service client.exe
+C:\Users\yannl\Documents\GitHub\eiin839\webFront\SOAP\Soap web service client\bin\Debug\Soap web service client.pdb
+C:\Users\yannl\Documents\GitHub\eiin839\webFront\SOAP\Soap web service client\obj\Debug\Soap web service client.csprojAssemblyReference.cache
+C:\Users\yannl\Documents\GitHub\eiin839\webFront\SOAP\Soap web service client\obj\Debug\Soap web service client.csproj.CoreCompileInputs.cache
+C:\Users\yannl\Documents\GitHub\eiin839\webFront\SOAP\Soap web service client\obj\Debug\Soap web service client.exe
+C:\Users\yannl\Documents\GitHub\eiin839\webFront\SOAP\Soap web service client\obj\Debug\Soap web service client.pdb
