@@ -1,8 +1,8 @@
 const apikey = "330d91f01657af3c5749eccdf042fcad37d9c7c2";
 
 function retrieveAllContracts(){
-    var txtFromInput = document.getElementById("ntm")
-    if( txtFromInput==null ){
+    var txtFromInput = document.getElementById("nik").value;
+    if( txtFromInput==null | txtFromInput.length==0 ){
         txtFromInput=apikey;
     }
     console.log("apikey = "+txtFromInput);
