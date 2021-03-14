@@ -7,9 +7,9 @@ function retrieveAllContracts(){
     }
     console.log("apikey = "+txtFromInput);
 
-    var callTxt="https://api.jcdecaux.com/vls/v1/stations?&apiKey=" + txtFromInput;
+    var callTxt="https://api.jcdecaux.com/vls/v3/contracts?&apiKey=" + txtFromInput;
     var request=new XMLHttpRequest();
-    request.open("GET",callTxt);
+    request.open("GET",callTxt,true);
     request.setRequestHeader("Accept","application/json");
     request.onload=contractsRetrieved;
     request.send();
@@ -17,5 +17,38 @@ function retrieveAllContracts(){
 }
 
 function contractsRetrieved(){
-    console.log(JSON.parse(this.responseText))
+    var response=JSON.parse(this.responseText)
+    console.log(response)
+    response.forEach(element => {
+        var optionElement = document.createElement("option");
+        optionElement.setAttribute("value",element.name);
+        var list = document.getElementById("contract_list");
+        list.appendChild(optionElement);
+        //console.log(element.contract_name);
+    });
+    console.log(list);
+}
+
+function retrieveContractStations(){
+    var txtFromInput = document.getElementById("nik").value;
+    if( txtFromInput==null | txtFromInput.length==0 ){
+        txtFromInput=apikey;
+    }
+    var contractFromInput = document.getElementById("list").value;
+    if( contractFromInput==null | contractFromInput.length==0 ){
+        console.log("Aucun contrat renseigné")
+    }
+    else{
+        var callTxt="https://api.jcdecaux.com/vls/v1/stations?contract=" + contractFromInput + "&apiKey=" + txtFromInput;
+        var request=new XMLHttpRequest();
+        request.open("GET",callTxt,true);
+        request.setRequestHeader("Accept","application/json");
+        request.onload=contractStationRetrieved;
+        request.send();
+    }
+}
+
+function contractStationRetrieved(){
+    var response=JSON.parse(this.responseText);
+    console.log(response);
 }
